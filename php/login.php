@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (isset($_SESSION['user_nm'])) {
+if (isset($_SESSION['user_cd'])) {
     // ログインユーザーがログインページに入れないように
     header('Location: main.php');
     exit; // リダイレクト後は必ず exit/die で処理を終了
@@ -40,7 +40,7 @@ if (isset($_SESSION['user_nm'])) {
                     <input type="password" class="form_area" name="password" id="password" value="">
                 </div>
                 <div class="submit_btn">
-                    <button class="button back" onclick="history.back()"> 戻る </button>
+                    <button type="button" class="button back" onclick="history.back()"> 戻る </button>
                     <button type="submit" class="button"> ログイン </button>
                 </div>
             </form>

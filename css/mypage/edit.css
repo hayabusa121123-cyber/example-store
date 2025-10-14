@@ -1,0 +1,68 @@
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+body {
+    display: block;
+    margin: 8px;
+    display: grid;
+    place-items: center;
+}
+
+.main {
+    text-align: center;
+    width: 100%;
+    position: absolute;
+}
+
+.error_msg {
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.text_title {
+    font-size: 35px;
+    font-weight: 700;
+}
+
+.form_area {
+    height: 35px;
+    width: 350px;
+    margin-bottom: 40px;
+}
+
+.text_update_info {
+    display: inline-block;
+    width: 350px;
+    text-align: justify;
+}
+
+.submit_btn {
+    gap: 200px;
+    display: inline-flex;
+}
+
+.submit_btn button{
+    width: 70px;
+    height: 35px;
+    background-color: #00a400;
+    color: white;
+    border: none;
+    border-radius: 8px;
+}
+
+.submit_btn .back {
+    background-color: gray;
+}
+
+.submit_btn button:hover,
+.submit_btn button:focus
+{
+    color: #aaa;
+    text-decoration: none;
+    cursor: pointer;
+}

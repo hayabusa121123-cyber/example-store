@@ -25,8 +25,9 @@ if (isset($_SESSION['status_message'])) {
 
 <body>
     <div class="header">
-        <?php if ($user_nm): ?>
+        <?php if ($user_cd): ?>
             <p><?php echo $user_nm . "さん"; ?> </p>
+            <a href="mypage/mypage.php">会員情報確認</a>
             <a href="logout.php">ログアウト</a>
         <?php else: ?>
             <a href="login.php" class="button"> ログイン </a>
