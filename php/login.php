@@ -46,7 +46,7 @@ if (isset($_SESSION['user_cd'])) {
             </form>
         </div>
         <div class="register_page">
-            <button class="button"> 新規登録 </button>
+            <a href="register/registerForm.php" class="button"> 新規登録 </a>
         </div>
     </div>
 </body>

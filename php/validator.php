@@ -27,7 +27,7 @@ class Validator
 
         if (empty($name)) {
             $errors = '名前は必須です。';
-        } elseif (strlen($name) > 10) {
+        } elseif (mb_strlen($name, 'UTF-8') > 10) {
             $errors = '10文字以内で入力してください。';
         }
 
@@ -79,6 +79,38 @@ class Validator
         return $errors;
     }
 
+    // パスワード
+    private static function validateUserPassword($password)
+    {
+        $errors = '';
+
+        if (empty($password)) {
+            $errors = 'パスワードを入力してください。';
+        } elseif (!preg_match('/^.{8,20}$/', $password)) {
+            $errors = 'パスワードは8文字以上20文字以内で設定してください。';
+        } elseif (!preg_match('/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/', $password)) {
+            $errors = '正しい形式で入力してください。';
+        }
+
+        return $errors;
+    }
+
+    // パスワード(登録用)
+    private static function validateRegistUserPassword($password, $password_check)
+    {
+        $errors = '';
+
+        $error_password = self::validateUserPassword($password);
+
+        if (isset($error_password)) {
+            $errors = $error_password;
+        } elseif ($password !== $password_check) {
+            $errors = '再入力パスワードが一致しません。';
+        }
+
+        return $errors;
+    }
+
     // ユーザー更新用のバリデーション
     public function validateUpdateUser($data)
     {
@@ -109,6 +141,68 @@ class Validator
             return $errors;
         } catch (Exception $e) {
             $_SESSION['status_message'] = "システムエラーが発生しました。";
+            header('Location: main.php');
+            exit;
+        }
+    }
+
+    public function validateRegistUser($data)
+    {
+        try {
+            $error = [];
+
+            $name = $data['name'];
+            $mail = $data['mail'];
+            $tel = $data['tel'];
+            $password = $data['password'];
+            $password_check = $data['password_check'];
+
+
+            // 共通のチェック関数を呼び出す
+            $error['name'] = self::validateRegistUserName($name);
+            $error['mail'] = $this->validateRegistUserMail($mail);
+            $error['tel'] = self::validateRegistUserTel($tel);
+            $error['password'] = self::validateRegistUserPassword($password, $password_check);
+
+            $errors = array_filter($error);
+
+            return $errors;
+        } catch (Exception $e) {
+            $_SESSION['status_message'] = "システムエラーが発生しました。";
+            header('Location: main.php');
+            exit;
+        }
+    }
+
+    // 新規登録完了用
+    public function validateRegistUserCompleat($input_data, $input_data_check)
+    {
+        try {
+            $error = [];
+
+            $name = $input_data['name'];
+            $mail = $input_data['mail'];
+            $tel = $input_data['tel'];
+            $password = $input_data['password'];
+            $name_check = $input_data_check['name'];
+            $mail_check = $input_data_check['mail'];
+            $tel_check = $input_data_check['tel'];
+            $password_check = $input_data_check['password'];
+
+            if ($name !== $name_check || $mail !== $mail_check || $tel !== $tel_check || $password !== $password_check) {
+                $error['error'] = '不正な操作が確認されました。';
+            } else {
+                // 共通のチェック関数を呼び出す
+                $error['name'] = self::validateRegistUserName($name);
+                $error['mail'] = $this->validateRegistUserMail($mail);
+                $error['tel'] = self::validateRegistUserTel($tel);
+                $error['password'] = self::validateUserPassword($password);
+            }
+            $errors = array_filter($error);
+
+            return $errors;
+        } catch (Exception $e) {
+            $_SESSION['status_message'] = "バリデーションチェックでエラーが発生しました。";
             header('Location: main.php');
             exit;
         }

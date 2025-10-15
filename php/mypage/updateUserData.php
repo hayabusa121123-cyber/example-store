@@ -14,8 +14,27 @@ unset($_SESSION['input_data']);
 try {
     $pdo = Database::getInstance()->getConnection();
 
-    $stmt = $pdo->prepare("UPDATE mst_user SET user_nm = :user_nm, user_mail = :mail, user_tel = :tel WHERE user_cd = :user_cd");
-    $stmt->execute([':user_nm' => $input_data['name'], ':mail' => $input_data['mail'], ':tel' => $input_data['tel'], ':user_cd' => $_SESSION['user_cd']]);
+    $sql = "
+        UPDATE mst_user SET 
+            user_nm = ?,
+            user_mail = ?,
+            user_tel = ?,
+            last_update_user_cd = ?,
+            last_update_user_name = ?,
+            last_update_datetime = CURRENT_TIMESTAMP
+        WHERE user_cd = ?
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    
+    $stmt->execute([
+        $input_data['name'],
+        $input_data['mail'],
+        $input_data['tel'],
+        $_SESSION['user_cd'],
+        $_SESSION['user_nm'],
+        $_SESSION['user_cd']
+    ]);
 
     $_SESSION['status_message'] = '更新しました。';
     // セッションIDを再生成し、セッション固定化攻撃を防ぐ

@@ -31,7 +31,7 @@ if (isset($_SESSION['status_message'])) {
             <a href="logout.php">ログアウト</a>
         <?php else: ?>
             <a href="login.php" class="button"> ログイン </a>
-            <a href="#" class="button"> 新規登録 </a>
+            <a href="register/registerForm.php" class="button"> 新規登録 </a>
         <?php endif; ?>
     </div>
     <?php
