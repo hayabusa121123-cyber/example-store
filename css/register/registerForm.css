@@ -32,7 +32,11 @@ body {
 .form_area {
     height: 35px;
     width: 350px;
-    margin-bottom: 40px;
+}
+
+.error {
+    color: red;
+    height: 40px;
 }
 
 .text_register_info {

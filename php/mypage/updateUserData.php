@@ -37,6 +37,7 @@ try {
     ]);
 
     $_SESSION['status_message'] = '更新しました。';
+    $_SESSION['user_nm'] = $input_data['name'];
     // セッションIDを再生成し、セッション固定化攻撃を防ぐ
     session_regenerate_id(true);
 

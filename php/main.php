@@ -25,14 +25,24 @@ if (isset($_SESSION['status_message'])) {
 
 <body>
     <div class="header">
-        <?php if ($user_cd): ?>
-            <p><?php echo $user_nm . "さん"; ?> </p>
-            <a href="mypage/mypage.php">会員情報確認</a>
-            <a href="logout.php">ログアウト</a>
-        <?php else: ?>
-            <a href="login.php" class="button"> ログイン </a>
-            <a href="register/registerForm.php" class="button"> 新規登録 </a>
-        <?php endif; ?>
+        <div class="user">
+            <?php if ($user_cd): ?>
+                <button id="username"><?php echo $user_nm . " さん"; ?> </button>
+                <nav id="usermenu" class="menu-select menu-hidden">
+                    <ul>
+                        <?php if ($_SESSION['admin_flg'] === '1'): ?>
+                            <li><a href='admin/top.php'>管理</a></li>
+                        <?php endif; ?>
+                        <li><a href="mypage/mypage.php">会員情報確認</a></li>
+                        <li><a href="mypage/password.php">パスワード変更</a></li>
+                        <li><a href="logout.php">ログアウト</a></li>
+                    </ul>
+                </nav>
+            <?php else: ?>
+                <a href="login.php" class="button"> ログイン </a>
+                <a href="register/registerForm.php" class="button"> 新規登録 </a>
+            <?php endif; ?>
+        </div>
     </div>
     <?php
     // メッセージが設定されている場合にモーダルを呼び出す
@@ -42,12 +52,29 @@ if (isset($_SESSION['status_message'])) {
     ?>
     <div class="main">
         <div class="title">
-            <span class="text_title"> 一覧 </span>
+            <span class="text_title"> 一覧aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa </span>
         </div>
         <div class="products">
-            ここに商品
+            ここに商品aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        </div>
+        <div class="products">
+            ここに商品aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        </div>
+        <div class="products">
+            ここに商品aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        </div>
+        <div class="products">
+            ここに商品aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        </div>
+        <div class="products">
+            ここに商品aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+        </div>
+        <div class="products">
+            ここに商品aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
         </div>
     </div>
 </body>
+
+<script src="/js/main.js"></script>
 
 </html>

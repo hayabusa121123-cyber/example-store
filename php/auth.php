@@ -25,7 +25,7 @@ if (empty($input_mail) || empty($input_password)) {
     exit;
 } else {
     try {
-        $stmt = $pdo->prepare("SELECT user_cd, CONCAT('', user_pwd) AS user_pwd, user_nm FROM mst_user WHERE user_mail = :mail");
+        $stmt = $pdo->prepare("SELECT user_cd, CONCAT('', user_pwd) AS user_pwd, user_nm, admin_flg FROM mst_user WHERE user_mail = :mail");
         $stmt->execute([':mail' => $input_mail]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 

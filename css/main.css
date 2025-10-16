@@ -1,0 +1,34 @@
+.header {
+    place-items: flex-end;
+    height: 40px;
+}
+
+#username {
+    background-color: unset;
+    border: none;
+    cursor: pointer;
+    width: fit-content;
+    height: 40px;
+    font-size: 20px;
+    min-width: 172px;
+    text-align: end;
+}
+
+/* メニューの初期設定 */
+#usermenu {
+    background-color: #ffffff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    width: 150px;
+    justify-self: right;
+}
+
+.menu-select ul {
+    list-style: none;
+    padding: 0;
+}
+
+/* 非表示状態 */
+.menu-hidden {
+    display: none;
+}

@@ -5,7 +5,7 @@ try {
     $pdo = Database::getInstance()->getConnection();
 } catch (Exception $e) {
     $_SESSION['status_message'] = "システムエラーが発生しました。";
-    header('Location: main.php');
+    header('Location: /php/main.php');
     exit;
 }
 
@@ -56,7 +56,7 @@ class Validator
                 }
             } catch (Exception $e) {
                 $_SESSION['status_message'] = "システムエラーが発生しました。";
-                header('Location: main.php');
+                header('Location: /php/main.php');
                 exit;
             }
         }
@@ -72,7 +72,7 @@ class Validator
             return;
         } elseif (!is_numeric($tel)) {
             $errors = '正しい形式で入力してください。';
-        } elseif (10 > strlen($tel) || strlen($tel) > 11) {
+        } elseif (!preg_match('/^.{10,11}$/', $tel)) {
             $errors = '正しい桁数で入力してください。';
         }
 
@@ -141,11 +141,53 @@ class Validator
             return $errors;
         } catch (Exception $e) {
             $_SESSION['status_message'] = "システムエラーが発生しました。";
-            header('Location: main.php');
+            header('Location: /php/main.php');
             exit;
         }
     }
 
+    // パスワード更新用のバリデーション
+    public function validateUpdateUserPassword($data)
+    {
+        try {
+            $sql = "
+                SELECT 
+                    CONCAT('', user_pwd) AS user_pwd
+                FROM
+                    mst_user
+                WHERE user_cd = ?
+            ";
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$_SESSION['user_cd']]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            $error = [];
+
+            $password_old = trim($data['password_old'] ?? '');
+            $password_old_check = $user['user_pwd'];
+
+            if (!password_verify($password_old, $password_old_check)){
+                $error['error'] = '現在のパスワードが一致しません。';
+            } else {
+            $password = $data['password'];
+            $password_check = $data['password_check'];
+
+            // 共通のチェック関数を呼び出す
+            $error['error'] = self::validateRegistUserPassword($password, $password_check);
+            }
+
+            $errors = array_filter($error);
+
+            return $errors;
+        } catch (Exception $e) {
+            $_SESSION['status_message'] = "システムエラーが発生しました。";
+            header('Location: /php/main.php');
+            exit;
+        }
+    }
+
+    // ユーザー登録確認ページ用
     public function validateRegistUser($data)
     {
         try {
@@ -169,7 +211,7 @@ class Validator
             return $errors;
         } catch (Exception $e) {
             $_SESSION['status_message'] = "システムエラーが発生しました。";
-            header('Location: main.php');
+            header('Location: /php/main.php');
             exit;
         }
     }
@@ -203,7 +245,7 @@ class Validator
             return $errors;
         } catch (Exception $e) {
             $_SESSION['status_message'] = "バリデーションチェックでエラーが発生しました。";
-            header('Location: main.php');
+            header('Location: /php/main.php');
             exit;
         }
     }
